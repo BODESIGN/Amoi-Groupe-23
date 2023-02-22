@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "793593937921",
+    "project_id": "amoi-1998",
+    "storage_bucket": "amoi-1998.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:793593937921:android:24411152f44eeebfe38000",
+        "android_client_info": {
+          "package_name": "bo.studio.amoi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "793593937921-deqkmcq1c52s478dve22mnhtbfk462gh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBrCY6ntvW8l1LGYLUyl3ttX6SlKj3lmP4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "793593937921-deqkmcq1c52s478dve22mnhtbfk462gh.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "793593937921-flpiu1vrv3ik35r9hlnlitprbemnpdk6.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "bo.studio.amoi"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

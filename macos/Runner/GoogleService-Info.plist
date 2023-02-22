@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>793593937921-flpiu1vrv3ik35r9hlnlitprbemnpdk6.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.793593937921-flpiu1vrv3ik35r9hlnlitprbemnpdk6</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCqwylaeGL-wTUHNZzDDf-7WwR8DfLSTYg</string>
+	<key>GCM_SENDER_ID</key>
+	<string>793593937921</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>bo.studio.amoi</string>
+	<key>PROJECT_ID</key>
+	<string>amoi-1998</string>
+	<key>STORAGE_BUCKET</key>
+	<string>amoi-1998.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:793593937921:ios:daaa82ec8a95b890e38000</string>
+</dict>
+</plist>
