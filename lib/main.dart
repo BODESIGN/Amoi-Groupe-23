@@ -1,4 +1,5 @@
 import 'package:amoi/bo/componantes/bo_main/bo_main.dart';
+import 'package:amoi/bo/componantes/bo_padding/bo_padding.dart';
 import 'package:amoi/bo/componantes/custom/utils/bo_connectivite.dart';
 import 'package:amoi/bo/componantes/custom/utils/bo_loading.dart';
 import 'package:amoi/screen/admin.dart';
@@ -40,7 +41,7 @@ void main() async {
 
   // FIREBASE
   await initFirebase();
-  
+
   // main
   mainApp.initialRoot = '/seconnect';
   mainApp.screens = [
@@ -54,4 +55,17 @@ void main() async {
   runApp(mainApp);
 
   loading.setConfig();
+}
+
+Widget emptyBoite() {
+  return $PADDING(
+      all: 50,
+      child: Column(children: const [
+        Icon(
+          Icons.new_releases,
+          color: Colors.black12,
+          size: 20,
+        ),
+        Text('Aucunne boite', style: TextStyle(color: Colors.black12))
+      ]));
 }

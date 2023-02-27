@@ -184,8 +184,7 @@ class BOITE extends StatelessWidget {
                 .getMyProgreesion(boite['informations'][userActif['login']]) *
             boite['montant'] /
             100;
-        base.quitBoite(userActif['login'], boite['code'], montant,
-            (result) {
+        base.quitBoite(userActif['login'], boite['code'], montant, (result) {
           loading.hide();
           userActif['boites'].remove(boite['code']);
           userActif['token'] += montant;
@@ -334,7 +333,7 @@ class BOITE extends StatelessWidget {
                             children: [
                               Row(children: [
                                 Text(
-                                    'But : ${calculBoite.getBut(boite['montant'], 2)}'),
+                                    'But : ${calculBoite.getBut(boite['montant'].toDouble(), 2)}'),
                                 Text(' Tk (avec 2 childs)')
                               ]),
                               // if (isHereMe)
@@ -605,23 +604,10 @@ class intoBoite {
   String login;
   String parent;
   Map<String, dynamic> boite;
-  Map<String, dynamic> newboite = {};
   Function actionAfter = () {};
 
   intoBoite(this.login, this.parent, this.boite) {
     String codeNewBoite = boiteCodeGenerator();
-    newboite = {
-      'code': codeNewBoite,
-      'dateCreate': getDateNow(),
-      'montant': boite['montant'],
-      'isNew': false,
-      'etage': {
-        '0': ['vide', 'vide'],
-        '1': ['vide', 'vide', 'vide', 'vide'],
-        '2': ['vide', 'vide', 'vide', 'vide', 'vide', 'vide', 'vide', 'vide'],
-      },
-      'informations': {}
-    };
   }
 
   int getPlaceNumPrent() {
@@ -692,8 +678,6 @@ class intoBoite {
   }
 
   run({bool isHaveParent = true}) {
-    String sortant1, sortant2;
-
     if (boite['isNew'] == true) {
       boite['etage']['0'][0] = boite['etage']['0'][1];
       boite['etage']['0'][1] = boite['etage']['1'][0];
@@ -729,56 +713,19 @@ class intoBoite {
       }
     }
 
-    // step 1
-    sortant1 = boite['etage']['0'][0].toString();
-    sortant2 = boite['etage']['0'][1].toString();
-    bool isHaveNew = false;
-    List<String> listChangesToNew = [];
-    List<String> listChangesToOld = [];
-
     // step 2
-    if (sortant1 != 'vide' &&
-        sortant2 != 'vide' &&
+    if (boite['etage']['0'][0].toString() != 'vide' &&
+        boite['etage']['0'][1].toString() != 'vide' &&
         boite['etage']['2'][7].toString() != 'vide') {
-      isHaveNew = true;
-      boite['isNew'] = false;
+      //
+      userActif['token'] -= boite['montant'];
+      userActif['boites'].add(boite['code']);
+      //
+      toast.show("Votre demande va etre traité ");
+      // loading
+      loading.hide();
 
-      boite['etage']['0'][0] = boite['etage']['1'][0];
-      boite['etage']['0'][1] = boite['etage']['1'][1];
-      newboite['etage']['0'][0] = boite['etage']['1'][2];
-      newboite['etage']['0'][1] = boite['etage']['1'][3];
-
-      boite['etage']['1'][0] = boite['etage']['2'][0];
-      boite['etage']['1'][1] = boite['etage']['2'][1];
-      boite['etage']['1'][2] = boite['etage']['2'][2];
-      boite['etage']['1'][3] = boite['etage']['2'][3];
-      newboite['etage']['1'][0] = boite['etage']['2'][4];
-      newboite['etage']['1'][1] = boite['etage']['2'][5];
-      newboite['etage']['1'][2] = boite['etage']['2'][6];
-      newboite['etage']['1'][3] = login;
-
-      newboite['etage']['2'][0] = boite['etage']['2'][0] = 'vide';
-      newboite['etage']['2'][1] = boite['etage']['2'][1] = 'vide';
-      newboite['etage']['2'][2] = boite['etage']['2'][2] = 'vide';
-      newboite['etage']['2'][3] = boite['etage']['2'][3] = 'vide';
-      newboite['etage']['2'][4] = boite['etage']['2'][4] = 'vide';
-      newboite['etage']['2'][5] = boite['etage']['2'][5] = 'vide';
-      newboite['etage']['2'][6] = boite['etage']['2'][6] = 'vide';
-      newboite['etage']['2'][7] = boite['etage']['2'][7] = 'vide';
-
-      listChangesToNew.add(newboite['etage']['0'][0].toString());
-      listChangesToNew.add(newboite['etage']['0'][1].toString());
-      listChangesToNew.add(newboite['etage']['1'][0].toString());
-      listChangesToNew.add(newboite['etage']['1'][1].toString());
-      listChangesToNew.add(newboite['etage']['1'][2].toString());
-      listChangesToNew.add(newboite['etage']['1'][3].toString());
-
-      listChangesToOld.add(boite['etage']['0'][0].toString());
-      listChangesToOld.add(boite['etage']['0'][1].toString());
-      listChangesToOld.add(boite['etage']['1'][0].toString());
-      listChangesToOld.add(boite['etage']['1'][1].toString());
-      listChangesToOld.add(boite['etage']['1'][2].toString());
-      listChangesToOld.add(boite['etage']['1'][3].toString());
+      return;
     }
     // step 3
     boite['informations'][login] = {
@@ -805,53 +752,9 @@ class intoBoite {
           boite['informations'][parent]['childNbr'] + 1;
       boite['informations'][parent]['etage'] = getPlaceNumPrent();
     }
-    // step 4
-    newboite['informations'] = boite['informations'];
 
     boite = updatePlace(boite);
-
-    if (isHaveNew) {
-      for (var element in listChangesToNew) {
-        boite['informations'][element] = {
-          'childNbr': 0,
-          'childs': [],
-          'etage': 0,
-          'dateDebut': getDateNow()
-        };
-      }
-      // boite['informations'][sortant1] = {
-      //   'childNbr': 0,
-      //   'childs': [],
-      //   'etage': 0,
-      //   'dateDebut': getDateNow()
-      // };
-      // boite['informations'][sortant2] = {
-      //   'childNbr': 0,
-      //   'childs': [],
-      //   'etage': 0,
-      //   'dateDebut': getDateNow()
-      // };
-      for (var element in listChangesToOld) {
-        newboite['informations'][element] = {
-          'childNbr': 0,
-          'childs': [],
-          'etage': 0,
-          'dateDebut': getDateNow()
-        };
-      }
-      // newboite['informations'][sortant1] = {
-      //   'childNbr': 0,
-      //   'childs': [],
-      //   'etage': 0,
-      //   'dateDebut': getDateNow()
-      // };
-      // newboite['informations'][sortant2] = {
-      //   'childNbr': 0,
-      //   'childs': [],
-      //   'etage': 0,
-      //   'dateDebut': getDateNow()
-      // };
-    }
+    boite['montant'] = boite['montant'].toInt();
 
     // step 5
     base.insert(tableBoite, boite['code'], boite, (result, value) {
@@ -859,120 +762,27 @@ class intoBoite {
           ? 'Nouveau boite créé !'
           : 'Une problème est survenue !');
 
+
+      if (result != 'succes') loading.hide();
       if (result != 'succes') return;
 
-      // step 6 : update fiche
-
-      if (isHaveNew) {
-        userActif['token'] -= boite['montant'];
-        userActif['boites'].add(boite['code']);
-
-        newboite = updatePlace(newboite);
-
-        // TODO MISE A JOUR DES sortant - vola
-        // - place - information - list boite in fiche
-
-        // base.insert(tableBoite, newboite['code'], newboite, (result, value) {
-        //   base.rejoindreBoite(
-        //       tableUser, login, newboite['etage']['0'][0], newboite['montant'],
-        //       (result) {
-        //     base.rejoindreBoite(tableUser, login, newboite['etage']['0'][1],
-        //         newboite['montant'], (result) {
-        //       base.rejoindreBoite(tableUser, login, newboite['etage']['1'][0],
-        //           newboite['montant'], (result) {
-        //         base.rejoindreBoite(tableUser, login, newboite['etage']['1'][1],
-        //             newboite['montant'], (result) {
-        //           base.rejoindreBoite(tableUser, login,
-        //               newboite['etage']['1'][2], newboite['montant'], (result) {
-        //             base.rejoindreBoite(
-        //                 tableUser,
-        //                 login,
-        //                 newboite['etage']['1'][3],
-        //                 newboite['montant'], (result) {
-        //               base.oldToNewRejoindre(tableUser, listChangesToNew[0],
-        //                   newboite['code'], boite['code'], (result) {
-        //                 base.oldToNewRejoindre(tableUser, listChangesToNew[1],
-        //                     newboite['code'], boite['code'], (result) {
-        //                   base.oldToNewRejoindre(tableUser, listChangesToNew[2],
-        //                       newboite['code'], boite['code'], (result) {
-        //                     base.oldToNewRejoindre(
-        //                         tableUser,
-        //                         listChangesToNew[3],
-        //                         newboite['code'],
-        //                         boite['code'], (result) {
-        //                       base.oldToNewRejoindre(
-        //                           tableUser,
-        //                           listChangesToNew[4],
-        //                           newboite['code'],
-        //                           boite['code'], (result) {
-        //                         base.oldToNewRejoindre(
-        //                             tableUser,
-        //                             listChangesToNew[5],
-        //                             newboite['code'],
-        //                             boite['code'], (result) {
-        //                           double montant1 =
-        //                               calculBoite.getMyProgreesion(
-        //                                       boite['informations'][sortant1]) *
-        //                                   boite['montant'] /
-        //                                   100;
-        //                           base.quitBoite(tableUser, sortant1,
-        //                               boite['code'], montant1, (result) {
-        //                             double montant2 =
-        //                                 calculBoite.getMyProgreesion(
-        //                                         boite['informations']
-        //                                             [sortant2]) *
-        //                                     boite['montant'] /
-        //                                     100;
-        //                             base.quitBoite(tableUser, sortant2,
-        //                                 boite['code'], montant2, (result) {
-        //                               actionAfter();
-        //                               if (isHaveParent == true) {
-        //                                 base.insertNotification(
-        //                                     parent,
-        //                                     'Nouveau child ! boite : AMOI-B${boite['code']}',
-        //                                     'Vous avez un nouveau child // login : ${userActif['login']}',
-        //                                     (result, value) {
-        //                                   // loading
-                                          loading.hide();
-        //                                 });
-        //                               } else {
-        //                                 // loading
-        //                                 loading.hide();
-        //                               }
-        //                             });
-        //                           });
-        //                         });
-        //                       });
-        //                     });
-        //                   });
-        //                 });
-        //               });
-        //             });
-        //           });
-        //         });
-        //       });
-        //     });
-        //   });
-        // });
-      } else {
-        base.rejoindreBoite(userActif['login'], boite['code'], boite['montant'],
-            (result) {
-          actionAfter();
-          if (isHaveParent == true) {
-            base.insertNotification(
-                parent,
-                'Nouveau child ! boite : AMOI-B${boite['code']}',
-                'Vous avez un nouveau child // login : ${userActif['login']}',
-                (result, value) {
-              // loading
-              loading.hide();
-            });
-          } else {
+      base.rejoindreBoite(userActif['login'], boite['code'], boite['montant'],
+          (res) {
+        actionAfter();
+        if (isHaveParent == true) {
+          base.insertNotification(
+              parent,
+              'Nouveau child ! boite : AMOI-B${boite['code']}',
+              'Vous avez un nouveau child .. login : ${userActif['login']}',
+              (result, value) {
             // loading
             loading.hide();
-          }
-        });
-      }
+          });
+        } else {
+          // loading
+          loading.hide();
+        }
+      });
     });
   }
 }

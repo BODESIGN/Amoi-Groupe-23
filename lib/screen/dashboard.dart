@@ -414,10 +414,7 @@ class _screenDashboardState extends State<screenDashboard> {
                 right: 10,
                 child: userActif['boites'].length == 0
                     ? Center(
-                        child: $LABEL(
-                            text: 'Aucune boite',
-                            textColor: Colors.black26,
-                            textSize: 16))
+                        child: emptyBoite())
                     : CarouselSlider(
                         carouselController: controler,
                         options: CarouselOptions(
@@ -483,124 +480,6 @@ class _screenDashboardState extends State<screenDashboard> {
                 ]))),
                 ]),
             )));
-  }
-
-  screen1(BuildContext context) {
-    return SafeArea(
-        child: Scaffold(
-            body: Center(
-                child: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-          appBar,
-          $CONTAINER(
-              ratio_y: .1,
-              context: context,
-              child: Container(
-                color: Colors.grey[200],
-                child: $PADDING(
-                    left: 20,
-                    right: 20,
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          $LABEL(
-                              text: 'Mes boites',
-                              textColor: Colors.blue,
-                              textSize: 14),
-                          Row(children: [
-                            btHelp,
-                            const Icon(Icons.help,
-                                size: 20, color: Colors.orangeAccent)
-                          ])
-                        ])),
-              )),
-          $CONTAINER(
-              ratio_y: .55,
-              context: context,
-              child: $PADDING(
-                  bottom: 20,
-                  left: 10,
-                  right: 10,
-                  child: userActif['boites'].length == 0
-                      ? Center(
-                          child: $LABEL(
-                              text: 'Aucune boite',
-                              textColor: Colors.black26,
-                              textSize: 16))
-                      : CarouselSlider(
-                          carouselController: controler,
-                          options: CarouselOptions(
-                            enlargeCenterPage: true,
-                            enableInfiniteScroll: true,
-                            viewportFraction: 1,
-                            aspectRatio: 1,
-                            initialPage: currentIndex,
-                            pageSnapping: true,
-                            onPageChanged: (index, reason) {
-                              setState(() {
-                                currentIndex = index;
-                              });
-                            },
-                          ),
-                          items: listBoites.map((i) {
-                            return Builder(
-                              builder: (BuildContext context) {
-                                return SizedBox(
-                                    width: double.maxFinite,
-                                    height: double.maxFinite,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(5),
-                                      child: Material(
-                                          elevation: 5,
-                                          borderOnForeground: true,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            side: const BorderSide(
-                                                color: Colors.black12,
-                                                width: 1),
-                                          ),
-                                          color: Colors.white,
-                                          shadowColor: Colors.black26,
-                                          child: $PADDING(all: 10, child: i)),
-                                    ));
-                              },
-                            );
-                          }).toList(),
-                        ))),
-          $CONTAINER(
-              context: context,
-              ratio_y: .01,
-              child: Center(
-                  child: userActif['boites'].length == 0
-                      ? null
-                      : $PAGE(
-                          currentIndex: currentIndex,
-                          count: listBoites.length))),
-          $CONTAINER(
-              ratio_y: .15,
-              context: context,
-              child: $PADDING(
-                  all: 15,
-                  child: SizedBox(
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                        Row(children: [btNewBoite, btSearchBoite]),
-                        Row(
-                          children: [
-                            Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [lbVersion, lbActorApp]),
-                            const SizedBox(width: 10),
-                            btDeconnect
-                          ],
-                        )
-                      ]))))
-        ]))));
   }
 
   convertion(String type) {

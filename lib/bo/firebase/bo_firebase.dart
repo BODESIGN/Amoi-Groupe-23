@@ -54,7 +54,9 @@ class $FIREBASE {
       String login, String title, String description, Function actionAfter) {
     String now = getDateNow();
     firestore
-        .collection('$tableUser//$login//$tableNotification')
+        .collection(tableUser)
+        .doc(login)
+        .collection(tableNotification)
         .doc(now)
         .set({
           'date': now,

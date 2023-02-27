@@ -190,56 +190,51 @@ class _screenSearchState extends State<screenSearch> {
                 body: SingleChildScrollView(
                     scrollDirection: Axis.vertical,
                     child: Column(
-                        mainAxisSize: MainAxisSize.max,
-                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          const SizedBox(height: 10),
-                          $CONTAINER(
-                              context: context,
-                              ratio_y: .12,
-                              child: $PADDING(all: 10, child: inputSearch)),
-                          $CONTAINER(
-                              ratio_y: .1,
-                              context: context,
+                          SizedBox(
+                              width: double.maxFinite,
+                              child: $PADDING(all: 20, child: inputSearch)),
+                          Container(
+                            color: Colors.black12,
+                            child: $PADDING(
+                                left: 20,
+                                right: 20,
+                                child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      $LABEL(
+                                          text:
+                                              'Meilleurs boites actifs actuels',
+                                          textColor: Colors.blue,
+                                          textSize: 14),
+                                      Row(children: [
+                                        btHelp,
+                                        const Icon(Icons.help,
+                                            size: 20,
+                                            color: Colors.orangeAccent)
+                                      ])
+                                    ])),
+                          ),
+                          SizedBox(
+                            height: 350,
+                            width: double.maxFinite,
+                            child: Center(
                               child: $PADDING(
-                                  left: 20,
-                                  right: 20,
-                                  child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        $LABEL(
-                                            text:
-                                                'Meilleurs boites actifs actuels',
-                                            textColor: Colors.blue,
-                                            textSize: 14),
-                                        Row(children: [
-                                          btHelp,
-                                          const Icon(Icons.help,
-                                              size: 20,
-                                              color: Colors.orangeAccent)
-                                        ])
-                                      ]))),
-                          $CONTAINER(
-                              ratio_y: .68,
-                              context: context,
-                              child: $PADDING(
-                                  bottom: 15,
+                                  bottom: 20,
+                                  top: 20,
                                   left: 10,
                                   right: 10,
                                   child: listBoites.isEmpty
                                       ? Center(
-                                          child: $LABEL(
-                                              text: 'Aucune boite',
-                                              textColor: Colors.black26,
-                                              textSize: 16))
+                                          child: emptyBoite())
                                       : CarouselSlider(
                                           carouselController: controler,
                                           options: CarouselOptions(
                                             enlargeCenterPage: true,
                                             enableInfiniteScroll: true,
                                             viewportFraction: 1,
-                                            aspectRatio: .5,
+                                            aspectRatio: 1,
                                             initialPage: currentIndex,
                                             pageSnapping: true,
                                             onPageChanged: (index, reason) {
@@ -283,16 +278,15 @@ class _screenSearchState extends State<screenSearch> {
                                               },
                                             );
                                           }).toList(),
-                                        ))),
-                          $CONTAINER(
-                              context: context,
-                              ratio_y: .02,
-                              child: Center(
-                                  child: listBoites.isEmpty
-                                      ? null
-                                      : $PAGE(
-                                          currentIndex: currentIndex,
-                                          count: listBoites.length)))
+                                        )),
+                            ),
+                          ),
+                          Center(
+                              child: listBoites.isEmpty
+                                  ? null
+                                  : $PAGE(
+                                      currentIndex: currentIndex,
+                                      count: listBoites.length))
                         ])))));
   }
 }
