@@ -305,11 +305,13 @@ class _screenDashboardState extends State<screenDashboard> {
                                           Text(
                                               '${f.format(userActif['ariary'])} Ariary / ',
                                               style: const TextStyle(
-                                                  fontWeight: FontWeight.bold, fontSize: 13)),
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 13)),
                                           Text(
                                               '${f.format(userActif['token'])} Tk',
                                               style: const TextStyle(
-                                                  fontWeight: FontWeight.bold, fontSize: 13)),
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 13)),
                                         ],
                                       )
                                     ])),
@@ -347,7 +349,7 @@ class _screenDashboardState extends State<screenDashboard> {
       child: SimpleHiddenDrawer(
         menu: Menu(isHaveNotyfNonVu: isHaveNotyfNonVu),
         screenSelectedBuilder: (position, controller) {
-          Widget screenCurrent = screen1(context);
+          Widget screenCurrent = screen0(context);
           // setState(() {
           curPane = position;
 
@@ -355,7 +357,7 @@ class _screenDashboardState extends State<screenDashboard> {
 
           switch (position) {
             case 0:
-              screenCurrent = screen1(context);
+              screenCurrent = screen0(context);
               break;
             case 1:
               screenCurrent = screen2(context);
@@ -375,6 +377,112 @@ class _screenDashboardState extends State<screenDashboard> {
         },
       ),
     );
+  }
+
+  screen0(BuildContext context) {
+    return SafeArea(
+        child: Scaffold(
+            body: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: Column(children: [
+                  appBar,
+                  SizedBox(
+                      width: double.maxFinite,
+                      child: $PADDING(
+                left: 20,
+                right: 20,
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      $LABEL(
+                          text: 'Mes boites',
+                          textColor: Colors.blue,
+                          textSize: 14),
+                      Row(children: [
+                        btHelp,
+                        const Icon(Icons.help,
+                            size: 20, color: Colors.orangeAccent)
+                      ])
+                    ]))),
+                  // boite vu
+                  SizedBox(
+                    height: 350,
+                    child: Center(
+                      child: $PADDING(
+                bottom: 20,
+                left: 10,
+                right: 10,
+                child: userActif['boites'].length == 0
+                    ? Center(
+                        child: $LABEL(
+                            text: 'Aucune boite',
+                            textColor: Colors.black26,
+                            textSize: 16))
+                    : CarouselSlider(
+                        carouselController: controler,
+                        options: CarouselOptions(
+                          enlargeCenterPage: true,
+                          enableInfiniteScroll: true,
+                          viewportFraction: 1,
+                          aspectRatio: 1,
+                          initialPage: currentIndex,
+                          pageSnapping: true,
+                          onPageChanged: (index, reason) {
+                            setState(() {
+                              currentIndex = index;
+                            });
+                          },
+                        ),
+                        items: listBoites.map((i) {
+                          return Builder(
+                            builder: (BuildContext context) {
+                              return SizedBox(
+                                  width: double.maxFinite,
+                                  height: double.maxFinite,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(5),
+                                    child: Material(
+                                        elevation: 5,
+                                        borderOnForeground: true,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(10),
+                                          side: const BorderSide(
+                                              color: Colors.black12, width: 1),
+                                        ),
+                                        color: Colors.white,
+                                        shadowColor: Colors.black26,
+                                        child: $PADDING(all: 10, child: i)),
+                                  ));
+                            },
+                          );
+                        }).toList(),
+                      )),
+                    ),
+                  ),
+                  Center(
+                      child: userActif['boites'].length == 0
+                ? null
+                : $PAGE(currentIndex: currentIndex, count: listBoites.length)),
+                  $PADDING(
+                      all: 15,
+                      child: SizedBox(
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                  Row(children: [btNewBoite, btSearchBoite]),
+                  Row(
+                    children: [
+                      Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [lbVersion, lbActorApp]),
+                      const SizedBox(width: 10),
+                      btDeconnect
+                    ],
+                  )
+                ]))),
+                ]),
+            )));
   }
 
   screen1(BuildContext context) {
